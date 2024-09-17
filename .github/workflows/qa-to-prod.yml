@@ -1,4 +1,4 @@
-name: Feature Freeze
+name: QA to Prod
 
 on:
   push:
