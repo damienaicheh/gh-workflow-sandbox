@@ -13,11 +13,10 @@ jobs:
     environment: dev
 
     steps:
+    - uses: actions/checkout@v4
 
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
-
-    - uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4

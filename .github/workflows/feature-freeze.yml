@@ -17,12 +17,12 @@ jobs:
 
     steps:
 
-    - name: Create Infrastructure de ${{ github.env }}
-      run: echo Run ARM templates commands...
-
     - uses: actions/checkout@v4
       with:
         ref: develop
+
+    - name: Create Infrastructure
+      run: echo Run ARM templates commands...
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
