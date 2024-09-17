@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Create Infrastructure
-      run: echo Run ARM templates commands... ${{ github.ref_name }}
+      run: echo Run ARM templates commands... ${{ github.ref_name }} and ${{ github.ref }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
