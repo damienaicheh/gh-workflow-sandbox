@@ -1,0 +1,84 @@
+name: QA to Prod
+
+on:
+  push:
+    tags:        
+      - '**' 
+
+jobs:
+  scan-repository:
+    runs-on: ubuntu-latest
+    outputs:
+      current-branch: ${{ steps.get-branch-name.outputs.current-branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          ref: release
+
+      - name: Get commit hash for the tag
+        id: get-branch-name
+        run: | 
+          # Get commit hash for the tag
+          commit_hash=$(git rev-parse ${{ github.ref }})
+          echo $commit_hash
+          # Determine branch containing the commit
+          branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          echo $branch
+          echo "current-branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Show branch name
+        run: echo "The tag was pushed to branch ${{ steps.get-branch-name.outputs.current-branch }}"
+
+  qa:
+    if: ${{ needs.scan-repository.outputs.current-branch == 'release' }}
+    needs: scan-repository
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: Eshop
+    environment: qa
+
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        ref: release
+
+    - name: Create Infrastructure
+      run: echo Run ARM templates commands...
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build ./Eshop.csproj --no-restore
+
+    - name: Publish code on Azure
+      run: echo Run ARM templates commands...
+
+  prod:
+    runs-on: ubuntu-latest
+    needs: qa
+    environment: prod
+    steps:
+
+      - name: Download package code from QA
+        run: echo Run ARM templates commands...
+
+      - run: |
+         echo "Step 1 deploying..."
+          sleep 10
+
+      - run: |
+          echo "Step 2 deploying..."
+          sleep 10
+
+      - run: |
+          echo "Step 3 deploying..."
+          sleep 10
