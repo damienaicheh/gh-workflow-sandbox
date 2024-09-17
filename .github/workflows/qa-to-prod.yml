@@ -17,8 +17,8 @@ jobs:
         id: get-branch-name
         run: | 
           # Get commit hash for the tag
-          commit=$(git rev-parse ${{ github.ref }})
-          echo $commit
+          commit_hash=$(git rev-parse ${{ github.ref }})
+          echo $commit_hash
           # Determine branch containing the commit
           branch-name=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
           echo $branch-name
