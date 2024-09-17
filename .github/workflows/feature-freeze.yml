@@ -7,7 +7,7 @@ on:
 
 jobs:
   qa:
-    if: ${{ vars.FREEZE_MODE }} == 'FEATURE'
+    if: ${{ vars.FREEZE_MODE == 'FEATURE' }}
     runs-on: ubuntu-latest
     defaults:
         run:
