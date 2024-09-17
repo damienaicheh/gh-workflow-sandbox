@@ -23,6 +23,6 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build ./Eshop/Eshop.csproj --no-restore
+      run: dotnet build ./Eshop.csproj --no-restore
 
     
