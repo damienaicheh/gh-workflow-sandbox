@@ -1,23 +1,28 @@
-name: Dev CI/CD
+name: Feature Freeze
 
 on:
   push:
-    branches: [ develop ]
+  # schedule:
+  #   - cron: '0 0 * * *'
+  #   - cron: '*/5 * * * *'
 
 jobs:
   build:
+    if: ${{ vars.FREEZE_MODE }} == 'FEATURE'
     runs-on: ubuntu-latest
     defaults:
         run:
           working-directory: Eshop
-    environment: dev
+    environment: qa
 
     steps:
 
-    - name: Create Infrastructure
+    - name: Create Infrastructure de ${{ github.env }}
       run: echo Run ARM templates commands...
 
     - uses: actions/checkout@v4
+      with:
+        ref: develop
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
