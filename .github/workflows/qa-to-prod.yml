@@ -6,8 +6,33 @@ on:
       - '**' 
 
 jobs:
+  scan-repository:
+    runs-on: ubuntu-latest
+    outputs:
+      current-branch: ${{ steps.get-branch-name.outputs.current-branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          ref: release
+
+      - name: Get commit hash for the tag
+        id: get-branch-name
+        run: | 
+          # Get commit hash for the tag
+          commit_hash=$(git rev-parse ${{ github.ref }})
+          echo $commit_hash
+          # Determine branch containing the commit
+          branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          echo $branch
+          echo "current-branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Show branch name
+        run: echo "The tag was pushed to branch ${{ steps.get-branch-name.outputs.current-branch }}"
+
   qa:
-    if: ${{ github.ref_name == 'release' }}
+    if: ${{ needs.scan-repository.outputs.current-branch == 'release' }}
+    needs: scan-repository
     runs-on: ubuntu-latest
     defaults:
         run:
@@ -17,6 +42,8 @@ jobs:
     steps:
 
     - uses: actions/checkout@v4
+      with:
+        ref: release
 
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
