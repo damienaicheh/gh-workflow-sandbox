@@ -26,7 +26,7 @@ jobs:
         run: echo "The tag was pushed to branch ${{ steps.get-branch.outputs.current-branch }}"
 
   qa:
-    if: ${{ jobs.scan-repository.outputs.current_branch }}
+    if: ${{ jobs.scan-repository.outputs.current_branch == 'release' }}
     needs: scan-repository
     runs-on: ubuntu-latest
     defaults:
