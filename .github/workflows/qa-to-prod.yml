@@ -20,9 +20,9 @@ jobs:
           commit_hash=$(git rev-parse ${{ github.ref }})
           echo $commit_hash
           # Determine branch containing the commit
-          branch-name=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
-          echo $branch-name
-          echo "current-branch=$branch-name" >> "$GITHUB_OUTPUT"
+          branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          echo "$branch"
+          echo "current-branch=$branch" >> "$GITHUB_OUTPUT"
 
       - name: Show branch name
         run: echo "The tag was pushed to branch ${{ steps.get-branch.outputs.current-branch }}"
