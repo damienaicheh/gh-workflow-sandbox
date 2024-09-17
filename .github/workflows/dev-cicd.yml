@@ -15,19 +15,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Create Infrastructure
-      run: echo Run ARM templates commands...
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+    - uses: .github/workflows/templates/build-dotnet/action.yml
       with:
-        dotnet-version: 8.0.x
+        project-path: ./Eshop.csproj
+    # - name: Create Infrastructure
+    #   run: echo Run ARM templates commands...
 
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Setup .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 8.0.x
 
-    - name: Build
-      run: dotnet build ./Eshop.csproj --no-restore
+    # - name: Restore dependencies
+    #   run: dotnet restore
+
+    # - name: Build
+    #   run: dotnet build ./Eshop.csproj --no-restore
 
     - name: Publish code on Azure
       run: echo Run ARM templates commands...
