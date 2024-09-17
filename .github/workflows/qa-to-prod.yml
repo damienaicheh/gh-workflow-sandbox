@@ -23,7 +23,8 @@ jobs:
           commit_hash=$(git rev-parse ${{ github.ref }})
           echo $commit_hash
           # Determine branch containing the commit
-          branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          branch=$(git branch --contains="$commit_hash" | cut -c3-)
+          # branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
           echo $branch
           echo "current-branch=$branch" >> "$GITHUB_OUTPUT"
 
