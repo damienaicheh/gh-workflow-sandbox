@@ -9,8 +9,8 @@ runs:
   using: "composite"
   steps: 
     - name: Publish package
-      working-directory: 
-      run: dotnet publish -c Release --output ./${{ inputs.working-directory }}/outputs
+      working-directory: ${{ inputs.working-directory }}
+      run: dotnet publish -c Release --output ./outputs
       shell: bash
     
     - name: Upload artifacts
