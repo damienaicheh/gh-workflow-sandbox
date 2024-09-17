@@ -2,9 +2,9 @@ name: Feature Freeze
 
 on:
   push:
-  # schedule:
-  #   - cron: '0 0 * * *'
-  #   - cron: '*/5 * * * *'
+  schedule:
+    - cron: '0 0 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
