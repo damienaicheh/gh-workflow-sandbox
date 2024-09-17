@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Build and deploy in Dev
     runs-on: ubuntu-latest
     defaults:
         run:
@@ -14,20 +15,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+    
+    - uses: ./.github/workflows/templates/build-dotnet
+      with:
+        project-path: ./Eshop/Eshop.csproj
+      
+    - uses: ./.github/workflows/templates/package-dotnet
+      with:
+        working-directory: ./Eshop
+        
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build ./Eshop.csproj --no-restore
 
     - name: Publish code on Azure
       run: echo Run ARM templates commands...

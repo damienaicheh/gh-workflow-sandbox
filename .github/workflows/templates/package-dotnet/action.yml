@@ -1,0 +1,20 @@
+name: "Package & Publish artifact"
+description: "Package dotnet project"
+inputs:
+  working-directory:
+    description: 'The path to directory to package'
+    required: true
+    
+runs:
+  using: "composite"
+  steps: 
+    - name: Publish package
+      working-directory: ${{ inputs.working-directory }}
+      run: dotnet publish -c Release --output ./outputs
+      shell: bash
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'artifact'
+        path: ${{ inputs.working-directory }}/outputs
