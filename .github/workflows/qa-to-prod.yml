@@ -1,4 +1,4 @@
-name: QA to Prod
+name: 'QA to Prod on validation'
 
 on:
   push:
@@ -49,20 +49,14 @@ jobs:
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+    - uses: ./.github/workflows/templates/build-dotnet
       with:
-        dotnet-version: 8.0.x
+        project-path: ./Eshop/Eshop.csproj
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build ./Eshop.csproj --no-restore
-
-    - name: Publish code on Azure
-      run: echo Run ARM templates commands...
-
+    - uses: ./.github/workflows/templates/package-dotnet
+      with:
+        working-directory: ./Eshop
+ 
   prod:
     runs-on: ubuntu-latest
     needs: qa
@@ -70,16 +64,12 @@ jobs:
     steps:
 
       - name: Download package code from QA
+        uses: actions/download-artifact@v4
+        with:
+          name: 'artifact'
+
+      - name: Create Infrastructure
         run: echo Run ARM templates commands...
 
-      - run: |
-         echo "Step 1 deploying..."
-          sleep 10
-
-      - run: |
-          echo "Step 2 deploying..."
-          sleep 10
-
-      - run: |
-          echo "Step 3 deploying..."
-          sleep 10
+      - name: Publish code on Azure
+        run: echo Run ARM templates commands...
