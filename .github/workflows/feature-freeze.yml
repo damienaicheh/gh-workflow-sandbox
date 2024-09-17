@@ -7,7 +7,7 @@ on:
     - cron: '*/5 * * * *'
 
 jobs:
-  build:
+  qa:
     if: ${{ vars.FREEZE_MODE }} == 'FEATURE'
     runs-on: ubuntu-latest
     defaults:

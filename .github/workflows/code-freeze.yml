@@ -5,7 +5,7 @@ on:
     branches: [ release ]
 
 jobs:
-  build:
+  qa:
     if: ${{ vars.FREEZE_MODE }} == 'CODE'
     runs-on: ubuntu-latest
     defaults:
