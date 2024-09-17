@@ -2,6 +2,7 @@ name: QA to Prod
 
 on:
   push:
+    # Better option will be to have something like tags/0.0.1 or some conventions
     tags:        
       - '**' 
 
