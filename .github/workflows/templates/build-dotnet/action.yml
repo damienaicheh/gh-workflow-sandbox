@@ -17,9 +17,21 @@ runs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
-        
-    - run: dotnet restore ${{ inputs.project-path }}
+    
+    - name: Restore packages
+      run: dotnet restore ${{ inputs.project-path }}
       shell: bash
 
-    - run: dotnet build ${{ inputs.project-path }} --no-restore
+    - name: Build project
+      run: dotnet build ${{ inputs.project-path }} --no-restore
       shell: bash
+
+    - name: Publish package
+      run: dotnet publish -c Release --output ./${{ inputs.project-path }}/outputs
+      shell: bash
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'artifact'
+        path: ${{ inputs.project-path }}/outputs
