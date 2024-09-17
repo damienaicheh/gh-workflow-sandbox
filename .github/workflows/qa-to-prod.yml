@@ -2,12 +2,12 @@ name: QA to Prod
 
 on:
   push:
-    branches: [ release ]
     tags:        
       - '**' 
 
 jobs:
   qa:
+    if: ${{ github.ref_name == 'release' }}
     runs-on: ubuntu-latest
     defaults:
         run:
