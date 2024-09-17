@@ -1,0 +1,37 @@
+name: Feature Freeze
+
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    if: ${{ vars.FREEZE_MODE }} == 'CODE'
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: Eshop
+    environment: qa
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Create Infrastructure
+      run: echo Run ARM templates commands...
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build ./Eshop.csproj --no-restore
+
+    - name: Publish code on Azure
+      run: echo Run ARM templates commands...
+
+    

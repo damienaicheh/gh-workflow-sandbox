@@ -1,0 +1,57 @@
+name: Feature Freeze
+
+on:
+  push:
+    branches: [ release ]
+    tags:        
+      - '**' 
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: Eshop
+    environment: qa
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Create Infrastructure
+      run: echo Run ARM templates commands...
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build ./Eshop.csproj --no-restore
+
+    - name: Publish code on Azure
+      run: echo Run ARM templates commands...
+
+  prod:
+    runs-on: ubuntu-latest
+    needs: qa
+    environment: prod
+    steps:
+
+      - name: Download package code from QA
+        run: echo Run ARM templates commands...
+
+      - run: |
+         echo "Step 1 deploying..."
+          sleep 10
+
+      - run: |
+          echo "Step 2 deploying..."
+          sleep 10
+
+      - run: |
+          echo "Step 3 deploying..."
+          sleep 10
