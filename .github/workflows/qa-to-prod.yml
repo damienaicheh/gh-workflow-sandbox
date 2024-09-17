@@ -13,8 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          fetch-tags: true
+          ref: release
 
       - name: Get commit hash for the tag
         id: get-branch-name
@@ -23,8 +22,7 @@ jobs:
           commit_hash=$(git rev-parse ${{ github.ref }})
           echo $commit_hash
           # Determine branch containing the commit
-          branch=$(git branch --contains="$commit_hash" | cut -c3-)
-          # branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          branch=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
           echo $branch
           echo "current-branch=$branch" >> "$GITHUB_OUTPUT"
 
@@ -43,6 +41,8 @@ jobs:
     steps:
 
     - uses: actions/checkout@v4
+      with:
+        ref: release
 
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
