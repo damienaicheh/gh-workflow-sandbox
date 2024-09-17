@@ -12,6 +12,9 @@ jobs:
       current-branch: ${{ steps.get-branch-name.outputs.current-branch }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Get commit hash for the tag
         id: get-branch-name
