@@ -1,0 +1,26 @@
+name: "Build"
+description: "Build dotnet project"
+inputs:
+  dotnet-version:
+    description: 'The dotnet version to use'
+    default: ' 8.0.x'
+    required: false
+  project-path:
+    description: 'The path to the project'
+    required: true
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+    
+    - name: Restore packages
+      run: dotnet restore ${{ inputs.project-path }}
+      shell: bash
+
+    - name: Build project
+      run: dotnet build ${{ inputs.project-path }} --no-restore
+      shell: bash
