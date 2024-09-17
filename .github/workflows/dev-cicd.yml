@@ -17,7 +17,7 @@ jobs:
 
     - uses: ./.github/workflows/templates/build-dotnet
       with:
-        project-path: ./Eshop.csproj
+        project-path: ./Eshop/Eshop.csproj
     # - name: Create Infrastructure
     #   run: echo Run ARM templates commands...
 
