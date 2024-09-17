@@ -6,8 +6,28 @@ on:
       - '**' 
 
 jobs:
+  scan-repository:
+    runs-on: ubuntu-latest
+    outputs:
+      current-branch: ${{ steps.et-branch-name.outputs.current-branch }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get commit hash for the tag
+        id: get-branch-name
+        run: | 
+          # Get commit hash for the tag
+          commit=$(git rev-parse ${{ github.ref }})
+          # Determine branch containing the commit
+          branch_name=$(git branch --contains="$commit_hash" | head -n1 | cut -c3-)
+          echo "::set-output current-branch=$branch_name"
+
+      - name: Show branch name
+        run: echo "The tag was pushed to branch ${{ steps.get-branch.outputs.current-branch }}"
+
   qa:
-    # if: ${{ github.ref_name == 'release' }}
+    if: ${{ jobs.scan-repository.outputs.current_branch }}
+    needs: scan-repository
     runs-on: ubuntu-latest
     defaults:
         run:
@@ -19,7 +39,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Create Infrastructure
-      run: echo Run ARM templates commands... ${{ github.ref_name }} and ${{ github.ref }}
+      run: echo Run ARM templates commands...
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
