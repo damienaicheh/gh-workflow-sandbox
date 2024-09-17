@@ -1,7 +1,6 @@
 name: Feature Freeze
 
 on:
-  push:
   schedule:
     - cron: '0 0 * * *'
     - cron: '*/5 * * * *'
