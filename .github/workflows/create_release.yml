@@ -2,7 +2,8 @@ name: 'Create Release'
 
 on:
   push:
-    branches: [ main ]
+    tags:
+    - '*' # Mandatory as it's a release.
 
 jobs:
   qa:
