@@ -30,8 +30,7 @@ jobs:
         working-directory: ./Eshop
 
     - name: Create zip for release
-      run: |
-        zip -r outputs.zip outputs -x ".git/*" ".github/*"
+      run: zip -r outputs.zip outputs -x ".git/*" ".github/*"
 
     # One of the actions recommanded by GitHub: https://github.com/softprops/action-gh-release
     # As the official one is archived since 2021: https://github.com/actions/create-release 
