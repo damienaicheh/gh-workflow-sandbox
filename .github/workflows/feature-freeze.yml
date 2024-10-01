@@ -18,11 +18,21 @@ jobs:
 
     steps:
 
-    # Use artifact from another workflow
-    - name: Download package code from Dev
-      uses: actions/download-artifact@v4
+    - name: Download workflow artifact
+      uses: dawidd6/action-download-artifact@v6
       with:
-        name: 'artifact'  
+        workflow: dev-cicd.yml
+        workflow_search: false
+        workflow_conclusion: success
+        branch: develop
+        name: 'artifact'
+        if_no_artifact_found: fail
+  
+    # # Use artifact from another workflow
+    # - name: Download package code from Dev
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: 'artifact'  
 
     # - uses: actions/checkout@v4
     #   with:
