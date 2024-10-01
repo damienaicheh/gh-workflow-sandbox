@@ -5,6 +5,9 @@ on:
     tags:
     - '*' # Mandatory as it's a release.
 
+permissions:
+  contents: write
+
 jobs:
   qa:
     name: Build and deploy in QA
