@@ -32,15 +32,14 @@ jobs:
     - name: Create zip for release
       run: |
         zip -r outputs.zip outputs -x ".git/*" ".github/*"
-        ls
-        cd ..
-        ls
 
+    # One of the actions recommanded by GitHub: https://github.com/softprops/action-gh-release
+    # As the official one is archived since 2021: https://github.com/actions/create-release 
     - name: Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: Eshop/outputs.zip
+        files: Eshop/outputs.zip # This action does not detect the working folder by default.
   
 
 
