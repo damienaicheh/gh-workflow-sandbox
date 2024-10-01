@@ -4,7 +4,7 @@ on:
   # This event will only trigger a workflow run if the workflow file is on the default branch.
   # See: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   qa:
@@ -18,17 +18,23 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v4
+    # Use artifact from another workflow
+    - name: Download package code from Dev
+      uses: actions/download-artifact@v4
       with:
-        ref: develop
+        name: 'artifact'  
 
-    - uses: ./.github/workflows/templates/build-dotnet
-      with:
-        project-path: ./Eshop/Eshop.csproj
+    # - uses: actions/checkout@v4
+    #   with:
+    #     ref: develop
 
-    - uses: ./.github/workflows/templates/package-dotnet
-      with:
-        working-directory: ./Eshop
+    # - uses: ./.github/workflows/templates/build-dotnet
+    #   with:
+    #     project-path: ./Eshop/Eshop.csproj
+
+    # - uses: ./.github/workflows/templates/package-dotnet
+    #   with:
+    #     working-directory: ./Eshop
 
     - name: Create Infrastructure
       run: echo Run ARM templates commands...
