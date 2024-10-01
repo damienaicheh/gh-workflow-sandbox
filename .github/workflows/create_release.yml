@@ -1,4 +1,4 @@
-name: 'Code Freeze: Build and deploy in QA on push on release'
+name: 'Create Release'
 
 on:
   push:
@@ -27,6 +27,7 @@ jobs:
 
     - name: Release
       uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: outputs
   
