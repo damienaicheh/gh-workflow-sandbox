@@ -29,6 +29,11 @@ jobs:
       with:
         working-directory: ./Eshop
 
+    - name: Create Infrastructure
+      run: | 
+        ls
+        ls -R
+
     - name: Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
