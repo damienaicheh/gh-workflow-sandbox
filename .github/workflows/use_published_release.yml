@@ -10,7 +10,7 @@ on:
 
 jobs:
   qa:
-    name: Get a specific release package
+    name: Get a specific release package ${{ inputs.tag }}
     runs-on: ubuntu-latest
     environment: prod
 
@@ -23,6 +23,6 @@ jobs:
         extract: true
 
     - name: Display release package content 
-      run: ls
+      run: ls -R
 
     
