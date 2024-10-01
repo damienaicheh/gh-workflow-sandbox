@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   qa:
-    name: Build and deploy in QA
+    name: Build and create a release package
     runs-on: ubuntu-latest
     defaults:
         run:

@@ -1,0 +1,28 @@
+name: 'Use published Release'
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Pick the tag of the release you want'
+        required: true
+        type: string
+
+jobs:
+  qa:
+    name: Get a specific release package
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+
+    - uses: robinraju/release-downloader@v1
+      with:
+        tag: ${{ inputs.tag }}
+        fileName: 'outputs.zip'
+        extract: true
+
+    - name: Display release package content 
+      run: ls
+
+    
